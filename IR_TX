@@ -1,0 +1,33 @@
+// June 2015
+// Author İpek Öğülmüş
+// ipek.000@gmail.com
+//
+// Referance:  Ken Shirriff's IRremote library
+// https://github.com/shirriff/Arduino-IRremote
+//
+// Thanks to Khaireddine Hlali to support multiple transmitters
+// https://github.com/khair-eddine/Arduino-IRremote/pull/1/files
+//
+
+// ****** IR TRANSMITTER ****** //
+
+#include <IRremote.h>
+
+long command_Left = 00L;
+long command_Right = 11L;
+
+IRsend irsend0; //digital pin 3 PWM
+IRsend1 irsend1; // digital pin 10 PWM 
+//IRsend2 irsend2; // digital pin 9 PWM 
+
+void setup()
+{
+    Serial.begin(9600);
+}
+
+void loop() {
+    irsend0.sendJVC(command_Left, 16, 0);
+    delay(100);
+    irsend1.sendJVC(command_Right, 16, 0);
+    delay(100);
+}

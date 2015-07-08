@@ -1,0 +1,63 @@
+// June 2015
+// Author İpek Öğülmüş
+// ipek.000@gmail.com
+//
+// Referance:  Ken Shirriff's IRremote library
+// https://github.com/shirriff/Arduino-IRremote
+//
+// Thanks to Khaireddine Hlali to support multiple transmitters
+// https://github.com/khair-eddine/Arduino-IRremote/pull/1/files
+//
+
+// ****** IR RECEIVER ****** //
+
+#include <IRremote.h>
+int R, L;
+int RECV_PIN = 11; // Digital pin 11 in Arduino UNO
+int count =1;
+
+IRrecv irrecv(RECV_PIN);
+
+decode_results results;
+
+void setup()
+{
+  Serial.begin(9600);
+  irrecv.enableIRIn(); // Start the receiver
+}
+
+void loop() {
+   // Serial.println(irrecv.decode(&results)); // is 0 if no data is received, is 1 if sent data is received
+    Serial.println("left function");
+    readLeft(count);
+    delay(500);
+    Serial.println("right function");
+    readRight(count);
+    delay(500);  
+}
+
+int readRight(int count){
+   
+    if (irrecv.decode(&results)) {
+      for(int i=0; i<count; i++){
+         Serial.println("right value");
+         R = results.value;
+         Serial.println(R); // Print it
+         delay(100); 
+         irrecv.resume(); // Receive the next value
+       }
+    }
+}
+
+int readLeft(int count){
+
+    if (irrecv.decode(&results)) {
+       for(int i=0; i<count; i++){
+         Serial.println("left value");
+         L = results.value;
+         Serial.println(L); // Print it
+         delay(100); 
+         irrecv.resume(); // Receive the next value
+       }
+    }
+}

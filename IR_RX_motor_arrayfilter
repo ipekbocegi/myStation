@@ -1,0 +1,149 @@
+//
+// June 2015
+// Author İpek Öğülmüş
+// ipek.000@gmail.com
+//
+// Referance:  Ken Shirriff's IRremote library
+// https://github.com/shirriff/Arduino-IRremote
+//
+// Thanks to Khaireddine Hlali to support multiple transmitters
+// https://github.com/khair-eddine/Arduino-IRremote/pull/1/files
+//
+
+// ****** IR RECEIVER ****** //
+#include <Servo.h>
+#include <IRremote.h>
+long R, L;
+int RECV_PIN = 11; // Digital pin 11 in Arduino UNO
+int readings[20];
+int i, c, k;
+int Rcount, Lcount, Ncount, most, most1;
+
+IRrecv irrecv(RECV_PIN);
+Servo left, right;
+decode_results results;
+
+void setup()
+{
+  Serial.begin(9600);
+  irrecv.enableIRIn(); // Start the receiver
+  left.attach(5); //digital pin 5 (PWM) on arduino
+  right.attach(6); //digital pin 6 (PWM) on arduino
+}
+
+void loop() {
+   
+   Serial.println("in the loop");
+   //readDecode();
+    
+    if(irrecv.decode(&results) == 1){ // is 0 if no data is received
+                                     // is 1 if there is data received
+        Serial.println("in interrupt"); 
+        readDecode();
+        delay(500);
+        // test readings
+        Serial.println("array: " );        
+         for (int c=0; c<20; c++) {
+           Serial.print(readings[c]);
+           Serial.print(" ");
+         }
+         Serial.println(); 
+         
+        //obtain the most frequent number in the array which gives the direction
+        getMost(readings); //will give D
+        
+        /*
+        do{
+          Serial.println("both seen go straight");
+            left.write(95);
+            right.write(85);
+            readDecode();
+            delay(500);       
+        }while(R == 11 && L == 99);
+        
+        do{
+          Serial.println("only R is seen turn right");
+            left.write(100);
+            right.write(90);
+            readDecode();
+            delay(500);
+        }
+        while(R == 11 && L != 99); // turn right if only right led is seen
+        
+        do{
+          Serial.println("only L is seen turn left");
+            left.write(90);
+            right.write(80);
+            readDecode();
+            delay(500);
+        }
+        while(R != 11 && L == 99); // turn left if only left led is seen
+        
+        do{
+          Serial.println("none go back");
+            left.write(85);
+            right.write(95);
+            readDecode();
+            delay(500);
+        }
+        while(R != 11 && L != 99); // go back if non is seen
+        */
+        
+   } //interrupt end
+   
+} //loop end
+
+void readDecode( ) {
+  
+     Serial.println("going to decode");
+     if (irrecv.decode(&results) == 1) {
+       
+          Serial.println("array is being created");
+          
+          //obtain readings array
+          for (int i = 0; i<20; i=i+2){
+
+            R = results.value;
+            if(R != 11){ R=0; } //make it nonsense
+            readings[i] = R;
+            irrecv.resume(); // Receive the next value
+            delay(10); //10
+           
+            L = results.value;
+            if(L != 99){ L = 0; }//make it nonsense
+            readings[i+1] = L;
+            irrecv.resume(); // Receive the next value
+            delay(10); //10
+         } //readings array is ready
+       
+    } //interrupt end
+    
+} //readDecode end
+
+
+int getMost(int readings[]){
+  
+  for (int i = 0; i<20; i++){
+    if( readings[i] == 99)
+    {Lcount ++;}
+    else if(readings[i] == 11)
+    {Rcount ++;}
+    else // if(readings[i] == 0
+    {Ncount ++;}    
+  }
+    Serial.print("L - R - N ");
+    Serial.print(Lcount);
+    Serial.print("\t");
+    Serial.print(Rcount);
+    Serial.print("\t");
+    Serial.print(Ncount);
+    Serial.println("\t");
+    
+    most1 = max(Lcount, Rcount);
+    most = max(most1, Ncount);
+   
+    return most;
+    
+} //getMost end
+
+

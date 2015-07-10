@@ -1,150 +1,65 @@
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
-right function
-right value
-11
-left function
-left value
-11
-right function
-right value
-0
-left function
-left value
-0
-right function
-right value
-11
-left function
-left value
-11
-right function
-right value
-0
-left function
-left value
-0
-right function
-right value
-11
-left function
-left value
-11
-right function
-right value
-0
-left function
-left value
-0
-right function
-right value
-11
-left function
-left value
-11
-right function
-right value
-0
-left function
-left value
-0
-right function
-right value
-11
-left function
-left value
-11
-right function
-right value
-0
-left function
-left value
-0
-right function
-right value
-11
-left function
-left value
-11
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
-right function
-right value
-0
-left function
-left value
-11
-right function
-right value
-11
-left function
-left value
-0
+L: 99
+R: 11
+reading
+both seen go straight
+L: 99
+both seen go straight
+L: 0
+R: 0
+only R is seen turn right
+L: 0
+only L is seen turn left
+L: 99
+R: 11
+none go back
+L: 99
+L: 0
+R: 11
+reading
+both seen go straight
+L: 99
+both seen go straight
+L: 0
+R: 0
+only R is seen turn right
+L: 0
+only L is seen turn left
+L: 99
+R: 11
+none go back
+L: 99
+R: 11
+L: 99
+R: 11
+reading
+both seen go straight
+L: 99
+both seen go straight
+L: 0
+R: 0
+only R is seen turn right
+L: 0
+R: 0
+only L is seen turn left
+L: 0
+R: 11
+none go back
+L: 0
+R: 11
+L: 99
+R: 11
+reading
+both seen go straight
+L: 0
+R: 11
+only R is seen turn right
+L: 99
+R: 0
+only L is seen turn left
+L: 99
+R: 0
+only L is seen turn left
+L: 0
+none go back
+L: 99
+R: 11

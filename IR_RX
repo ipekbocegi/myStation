@@ -14,50 +14,95 @@
 #include <IRremote.h>
 int R, L;
 int RECV_PIN = 11; // Digital pin 11 in Arduino UNO
-int count =1;
 
 IRrecv irrecv(RECV_PIN);
-
+Servo left, right;
 decode_results results;
 
 void setup()
 {
   Serial.begin(9600);
   irrecv.enableIRIn(); // Start the receiver
+  left.attach(5); //digital pin 5 (PWM) on arduino
+  right.attach(6); //digital pin 6 (PWM) on arduino  
 }
 
 void loop() {
-   // Serial.println(irrecv.decode(&results)); // is 0 if no data is received, is 1 if sent data is received
-    Serial.println("left function");
-    readLeft(count);
-    delay(500);
-    Serial.println("right function");
-    readRight(count);
-    delay(500);  
-}
-
-int readRight(int count){
    
-    if (irrecv.decode(&results)) {
-      for(int i=0; i<count; i++){
-         Serial.println("right value");
-         R = results.value;
-         Serial.println(R); // Print it
-         delay(100); 
-         irrecv.resume(); // Receive the next value
-       }
-    }
+ // Serial.println("begin");
+  
+    if(irrecv.decode(&results) == 1){ // is 0 if no data is received
+                                      // is 1 if there is data received
+        //Serial.println("read left");
+        readLeft();
+        //Serial.println("read right");
+        readRight(); 
+        Serial.println("reading");
+        
+        do{
+          Serial.println("both seen go straight");
+            left.write(95);
+            right.write(85);
+            delay(100);
+            readLeft();
+            readRight();         
+        }while(R == 11 && L == 99);
+        
+        do{
+          Serial.println("only R is seen turn right");
+            left.write(100);
+            right.write(90);
+            delay(100);
+            readLeft();
+            readRight();
+        }
+        while(R == 11 && L != 99); // sadece sağı görüyorsa sağa dönsün
+        
+        do{
+          Serial.println("only L is seen turn left");
+            left.write(90);
+            right.write(80);
+            delay(100);
+            readLeft();
+            readRight();
+        }
+        while(R != 11 && L == 99); //sadece solu görüyorsa sola dönsün
+        
+        do{
+          Serial.println("none go back");
+            left.write(85);
+            right.write(95);
+            delay(100);
+            readLeft();
+            readRight();
+        }
+        while(R != 11 && L != 99);
+   }
+   //Serial.println("finish");
 }
 
-int readLeft(int count){
-
+void readRight(){
     if (irrecv.decode(&results)) {
-       for(int i=0; i<count; i++){
-         Serial.println("left value");
-         L = results.value;
-         Serial.println(L); // Print it
-         delay(100); 
-         irrecv.resume(); // Receive the next value
+       R = results.value;
+       if(R != 11){
+       R=0; //make it zero
        }
-    }
+       Serial.print("R: ");
+       Serial.println(R);
+       irrecv.resume(); // Receive the next value
+     }
+     delay(100); //10
+}
+
+void readLeft(){
+    if (irrecv.decode(&results)) {
+       L = results.value;
+       if(L != 99){
+       L = 0; //make it zero
+       }
+       Serial.print("L: ");
+       Serial.println(L);
+       irrecv.resume(); // Receive the next value
+     }
+     delay(100); //10
 }

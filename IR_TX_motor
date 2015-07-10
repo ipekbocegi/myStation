@@ -13,7 +13,7 @@
 
 #include <IRremote.h>
 
-long command_Left = 00L;
+long command_Left = 99L;
 long command_Right = 11L;
 
 IRsend irsend0; //digital pin 3 PWM
@@ -27,7 +27,7 @@ void setup()
 
 void loop() {
     irsend0.sendJVC(command_Left, 16, 0);
-    delay(100);
+    delay(50);
     irsend1.sendJVC(command_Right, 16, 0);
-    delay(100);
+    delay(50);
 }

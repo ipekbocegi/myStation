@@ -63,3 +63,5 @@ L: 0
 none go back
 L: 99
 R: 11
+
+Actually receiver sees both of the leds in the setup. But it does not move forward. Instead, it makes discontinuous events.
